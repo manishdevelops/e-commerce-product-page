@@ -1,14 +1,12 @@
 import React from 'react';
 import ProductShow from './ProductShow';
+import ProductInfo from './ProductInfo';
 
 const Body = () => {
 	return (
-		<main className='my-10  md:w-[90%] lg:w-[75%] mx-auto'>
+		<main className='my-10  md:w-[90%] lg:w-[75%] mx-auto font-kumbh-sans md:flex md:justify-between'>
 			<ProductShow />
-			<section>
-				<h1>sneaker company</h1>
-				<h2>fall limited edition sneakers</h2>
-			</section>
+			<ProductInfo />
 		</main>
 	);
 };
