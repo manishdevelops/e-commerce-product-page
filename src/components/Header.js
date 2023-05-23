@@ -3,11 +3,24 @@ import cart from '../assets/images/icon-cart.svg';
 import avatar from '../assets/images/image-avatar.png';
 import close from '../assets/images/icon-close.svg';
 import logo from '../assets/images/logo.svg';
-
+import Delete from '../assets/images/icon-delete.svg';
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { clearCart } from '../utils/cartSlice';
 
 const Header = () => {
 	const [isNavOpen, setIsNavOpen] = useState(false);
+	const [isCartOpen, setIsCartOpen] = useState(false);
+
+	const cartItems = useSelector((store) => store.cart.items);
+	console.log(cartItems);
+	const dispatch = useDispatch();
+
+	const handleRemoveCart = function () {
+		dispatch(clearCart());
+	};
+
 	return (
 		<>
 			<header className='font-kumbh-sans flex md:w-[95%] lg:w-[85%] mx-auto mt-4 justify-between align-baseline px-5 pt-5'>
@@ -15,22 +28,32 @@ const Header = () => {
 					<div className='flex mr-6 md:mr-10'>
 						<button
 							className='md:hidden'
-							onClick={() => setIsNavOpen(!isNavOpen)}
+							onClick={() => {
+								setIsNavOpen(!isNavOpen);
+								setIsCartOpen(false);
+							}}
 						>
 							<img className='w-6 h-5  mr-4 block' alt='menu' src={menu} />
 						</button>
-						<img
-							alt='logo'
-							src={logo}
-							className='w-[70%] md:w-full md:h-7 ml-2 h-6 lg:mr-10'
-						/>
+						<span aria-label='logo'>
+							<img
+								alt='logo'
+								src={logo}
+								className='w-[70%] md:w-full md:h-7 ml-2 h-6 lg:mr-10 '
+							/>
+						</span>
 					</div>
 					<div
 						className={`w-[70%] absolute z-10 md:static md:block h-full bg-white  left-0 top-0 px-3 mt-4 md:mt-0 ${
 							isNavOpen ? 'block' : 'hidden'
 						}`}
 					>
-						<button className='md:hidden' onClick={() => setIsNavOpen(false)}>
+						<button
+							className='md:hidden'
+							onClick={() => {
+								setIsNavOpen(false);
+							}}
+						>
 							<img alt='close' src={close} className='my-7 w-5 mx-4' />
 						</button>
 						<nav>
@@ -79,10 +102,71 @@ const Header = () => {
 						</nav>
 					</div>
 				</div>
-				<div className='flex'>
-					<img alt='cart' src={cart} className='w-6 h-6 mr-3 md:mr-6' />
-					<article className='absolute top-32 md:top-20 left-[5vw] md:left-auto w-[90vw] md:right-[5%] lg:right-[6%] md:w-60 lg:w-80 h-40 bg-slate-500'></article>
-					<img alt='avatar' src={avatar} className='w-8 h-8 max-w-full' />
+				<div className='flex '>
+					<button
+						onClick={() => {
+							setIsCartOpen(!isCartOpen);
+							setIsNavOpen(false);
+						}}
+						className='flex'
+					>
+						{cartItems?.[0]?.totalItem > 0 && (
+							<p className='relative left-8 top-[-.6rem] text-xs font-700 text-White-1 bg-orange-1 rounded-2xl px-[7px]'>
+								{cartItems?.[0]?.totalItem}
+							</p>
+						)}
+						<img alt='cart' src={cart} className='w-6 h-6 mr-3 md:mr-6' />
+					</button>
+					{isCartOpen && (
+						<article className='absolute z-[20] top-32 md:top-20 left-[5vw] md:left-auto w-[90vw] md:right-[5%] lg:right-[6%]  md:w-80 h-56 bg-White-1 shadow-xl p-6 rounded-md'>
+							<p className='p-4'>cart</p>
+							<hr />
+							{(cartItems?.[0]?.totalItem === 0 || cartItems.length === 0) && (
+								<p className='text-center my-14 font-700 text-dark-grayish-blue text-sm'>
+									Your cart is empty.
+								</p>
+							)}
+							{cartItems?.[0]?.totalItem > 0 && (
+								<>
+									<div className='flex justify-between my-4'>
+										<span aria-label='product-icon'>
+											<img
+												src={cartItems[0].url}
+												alt='product-icon'
+												className='w-10 h-10 mr-2 rounded-md'
+											/>
+										</span>
+										<div>
+											<p className='capitalize text-sm'>{cartItems[0].desc}</p>
+											<p>
+												$125 x {cartItems?.[0]?.totalItem}{' '}
+												<span className='font-bold ml-2'>
+													${cartItems?.[0].price * cartItems?.[0]?.totalItem}
+												</span>
+											</p>
+										</div>
+										<button aria-label='delete-icon' onClick={handleRemoveCart}>
+											<img
+												src={Delete}
+												alt='delete'
+												className='mt-2 cursor-pointer'
+											/>
+										</button>
+									</div>
+									<button className='w-full capitalize font-bold text-White-1 bg-orange-1 rounded-md py-2 hover:opacity-50 duration-200'>
+										checkout
+									</button>
+								</>
+							)}
+						</article>
+					)}
+					<span aria-label='avatar'>
+						<img
+							alt='avatar'
+							src={avatar}
+							className=' cursor-pointer rounded-full w-8 h-8 max-w-full hover:border-2 hover:border-orange-1'
+						/>
+					</span>
 				</div>
 			</header>
 			<hr className=' md:w-[92%] lg:w-[85%] mx-auto hidden md:block' />
