@@ -13,7 +13,6 @@ const Header = () => {
 	const [isCartOpen, setIsCartOpen] = useState(false);
 
 	const cartItems = useSelector((store) => store.cart.items);
-	console.log(cartItems);
 	const dispatch = useDispatch();
 
 	const handleRemoveCart = function () {

@@ -12,7 +12,6 @@ const ProductInfo = () => {
 
 	const dispatch = useDispatch();
 	const handleAddItem = function () {
-		// if (totalItem === 0) return;
 		dispatch(clearCart());
 
 		dispatch(
