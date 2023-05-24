@@ -19,6 +19,7 @@ const ProductShow = ({ openLightbox }) => {
 			<div className='relative'>
 				<figure>
 					<img
+						fetchpriority='high'
 						alt='product'
 						src={data?.data?.images?.[imgIndex]?.url}
 						className='w-full md:rounded-3xl md:w-[90%]'
