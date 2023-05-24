@@ -4,11 +4,11 @@ import avatar from '../assets/images/image-avatar.png';
 import close from '../assets/images/icon-close.svg';
 import logo from '../assets/images/logo.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import { closeMenu, toggleMenu } from '../utils/appSlice';
-import Cart from './Cart';
 import NavigationBar from './NavigationBar';
 import TotalCartItems from './TotalCartItems';
+const Cart = lazy(() => import('./Cart.js'));
 
 const Header = () => {
 	const [isCartOpen, setIsCartOpen] = useState(false);
@@ -59,7 +59,11 @@ const Header = () => {
 						<TotalCartItems />
 						<img alt='cart' src={cart} className='w-6 h-6 mr-3 md:mr-6' />
 					</button>
-					{isCartOpen && <Cart />}
+					{isCartOpen && (
+						<Suspense>
+							<Cart />
+						</Suspense>
+					)}
 					<span aria-label='avatar'>
 						<img
 							alt='avatar'

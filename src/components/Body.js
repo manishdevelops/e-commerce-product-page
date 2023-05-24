@@ -1,8 +1,9 @@
 import ProductShow from './ProductShow';
 import ProductInfo from './ProductInfo';
-import Lightbox from './Lightbox';
 import { useSelector } from 'react-redux';
-import BgOverlay from './BgOverlay';
+import { lazy, Suspense } from 'react';
+const BgOverlay = lazy(() => import('./BgOverlay'));
+const Lightbox = lazy(() => import('./Lightbox'));
 
 const Body = () => {
 	const isLightboxOpen = useSelector((state) => state.lightbox.isLightboxOpen);
@@ -12,8 +13,10 @@ const Body = () => {
 		<main className='my-10  md:w-[90%] lg:w-[75%] mx-auto font-kumbh-sans md:flex md:justify-between'>
 			<ProductShow />
 			<ProductInfo />
-			{isLightboxOpen && <Lightbox />}
-			{isMenuOpen && <BgOverlay />}
+			<Suspense>
+				{isLightboxOpen && <Lightbox />}
+				{isMenuOpen && <BgOverlay />}
+			</Suspense>
 		</main>
 	);
 };
