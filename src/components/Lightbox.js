@@ -18,7 +18,7 @@ const Lightbox = () => {
 			>
 				<img src={closeIcon} alt='close' className='h-10 w-10' />
 			</button>
-			<ProductShow />
+			<ProductShow openLightbox={true} />
 		</section>
 	);
 };
