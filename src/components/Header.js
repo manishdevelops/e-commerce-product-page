@@ -30,7 +30,7 @@ const Header = () => {
 
 	return (
 		<>
-			<header className='font-kumbh-sans flex md:w-[95%] lg:w-[85%] mx-auto mt-4 justify-between align-baseline px-5 pt-5'>
+			<header className='font-kumbh-sans flex md:w-[95%] lg:w-[85%] mx-auto mt-4 md:mt-8 justify-between align-baseline px-5 pt-5 md:pt-0'>
 				<div className='flex '>
 					<div className='flex mr-6 md:mr-10'>
 						<button className='md:hidden' onClick={toggleMenuHandler}>
@@ -45,7 +45,7 @@ const Header = () => {
 						</span>
 					</div>
 					<div
-						className={`w-[70%] absolute z-20 md:static md:block h-full bg-white  left-0 top-0 px-3 mt-4 md:mt-0 ${
+						className={`w-[70%] fixed z-30 md:static md:block h-full bg-white  left-0 top-0 px-3  md:mt-0 ${
 							isMenuOpen ? 'block' : 'hidden'
 						}`}
 					>
