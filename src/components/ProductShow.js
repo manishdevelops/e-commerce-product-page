@@ -3,18 +3,13 @@ import UserContext from '../utils/UserContext.js';
 import { useContext, useState } from 'react';
 import prevIcon from '../assets/images/icon-previous.svg';
 import nextIcon from '../assets/images/icon-next.svg';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toggleLightbox } from '../utils/lightboxSlice.js';
 
-const ProductShow = () => {
+const ProductShow = ({ openLightbox }) => {
 	const [imgIndex, setImgIndex] = useState(0);
-
 	const data = useContext(UserContext);
-
-	const isLightboxOpen = useSelector((state) => state.lightbox.isLightboxOpen);
-
 	const dispatch = useDispatch();
-
 	const lightboxHandler = () => {
 		dispatch(toggleLightbox());
 	};
@@ -37,7 +32,10 @@ const ProductShow = () => {
 					<button
 						className='bg-White-1 px-7 py-6 rounded-full'
 						onClick={() => {
-							if (imgIndex === 0) return;
+							if (imgIndex === 0) {
+								setImgIndex(3);
+								return;
+							}
 							setImgIndex(imgIndex - 1);
 						}}
 					>
@@ -48,20 +46,26 @@ const ProductShow = () => {
 							src={nextIcon}
 							alt=' next-icon'
 							onClick={() => {
-								if (imgIndex === 3) return;
+								if (imgIndex === 3) {
+									setImgIndex(0);
+									return;
+								}
 								setImgIndex(imgIndex + 1);
 							}}
 						/>
 					</button>
 				</div>
-				{isLightboxOpen && (
+				{openLightbox && (
 					<div
 						className={`justify-between absolute w-full top-[40%] left-[-5%]  hidden md:flex`}
 					>
 						<button
 							className='bg-White-1 px-7 py-6 rounded-full'
 							onClick={() => {
-								if (imgIndex === 0) return;
+								if (imgIndex === 0) {
+									setImgIndex(3);
+									return;
+								}
 								setImgIndex(imgIndex - 1);
 							}}
 						>
@@ -72,7 +76,10 @@ const ProductShow = () => {
 								src={nextIcon}
 								alt=' next-icon'
 								onClick={() => {
-									if (imgIndex === 3) return;
+									if (imgIndex === 3) {
+										setImgIndex(0);
+										return;
+									}
 									setImgIndex(imgIndex + 1);
 								}}
 							/>
