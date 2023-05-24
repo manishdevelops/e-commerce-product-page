@@ -22,6 +22,7 @@ const ProductShow = ({ openLightbox }) => {
 						fetchpriority='high'
 						alt='product'
 						src={data?.data?.images?.[imgIndex]?.url}
+						srset={data?.data?.images?.[imgIndex]?.url + ' 200w'}
 						className='w-full md:rounded-3xl md:w-[90%]'
 						onClick={lightboxHandler}
 					/>
