@@ -2,6 +2,7 @@ import ProductShow from './ProductShow';
 import ProductInfo from './ProductInfo';
 import Lightbox from './Lightbox';
 import { useSelector } from 'react-redux';
+import BgOverlay from './BgOverlay';
 
 const Body = () => {
 	const isLightboxOpen = useSelector((state) => state.lightbox.isLightboxOpen);
@@ -12,9 +13,7 @@ const Body = () => {
 			<ProductShow />
 			<ProductInfo />
 			{isLightboxOpen && <Lightbox />}
-			{isMenuOpen && (
-				<section className='fixed z-20 w-full h-screen left-0 top-0 bg-black-opacity-75 md:hidden'></section>
-			)}
+			{isMenuOpen && <BgOverlay />}
 		</main>
 	);
 };

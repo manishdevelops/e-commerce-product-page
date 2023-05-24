@@ -3,22 +3,16 @@ import cart from '../assets/images/icon-cart.svg';
 import avatar from '../assets/images/image-avatar.png';
 import close from '../assets/images/icon-close.svg';
 import logo from '../assets/images/logo.svg';
-import Delete from '../assets/images/icon-delete.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { clearCart } from '../utils/cartSlice';
 import { closeMenu, toggleMenu } from '../utils/appSlice';
+import Cart from './Cart';
+import NavigationBar from './NavigationBar';
+import TotalCartItems from './TotalCartItems';
 
 const Header = () => {
 	const [isCartOpen, setIsCartOpen] = useState(false);
-
-	const cartItems = useSelector((store) => store.cart.items);
 	const dispatch = useDispatch();
-
-	const handleRemoveCart = function () {
-		dispatch(clearCart());
-	};
-
 	const toggleMenuHandler = function () {
 		dispatch(toggleMenu());
 	};
@@ -52,50 +46,7 @@ const Header = () => {
 						<button className='md:hidden' onClick={closeMenuHandler}>
 							<img alt='close' src={close} className='my-7 w-5 mx-4' />
 						</button>
-						<nav>
-							<ul className='md:flex md:text-grayish-blue'>
-								<li className='capitalize  font-bold text-xl mt-3 mx-4 md:mx-0  md:text-sm  cursor-pointer hover:text-very-dark-blue md:text-center'>
-									<a
-										href='#collections'
-										className="h-20 after:content-[''] after:bg-orange-1 after:w-[72.94px] md:hover:after:h-[3px]  after:top-4 flex flex-col justify-between duration-200"
-									>
-										collections
-									</a>
-								</li>
-								<li className='capitalize mt-3 mx-4 md:mx-0  md:text-sm font-bold text-xl cursor-pointer hover:text-very-dark-blue md:text-center'>
-									<a
-										href='#men'
-										className="h-20 after:content-[''] after:bg-orange-1 after:w-[72.94px] md:hover:after:h-[3px]  after:top-4 flex flex-col justify-between duration-200"
-									>
-										men
-									</a>
-								</li>
-								<li className='capitalize mt-3 mx-4 md:mx-0  md:text-sm font-bold text-xl cursor-pointer hover:text-very-dark-blue md:text-center'>
-									<a
-										href='#women'
-										className="h-20 after:content-[''] after:bg-orange-1 after:w-[72.94px] md:hover:after:h-[3px]  after:top-4 flex flex-col justify-between duration-200"
-									>
-										women
-									</a>
-								</li>
-								<li className='capitalize mt-3 mx-4 md:mx-0 md:text-sm font-bold text-xl cursor-pointer hover:text-very-dark-blue md:text-center'>
-									<a
-										href='#about'
-										className="h-20 after:content-[''] after:bg-orange-1 after:w-[72.94px] md:hover:after:h-[3px]  after:top-4 flex flex-col justify-between duration-200"
-									>
-										about
-									</a>
-								</li>
-								<li className='capitalize mt-3 mx-4 md:mx-0 md:text-sm font-bold text-xl cursor-pointer hover:text-very-dark-blue md:text-center'>
-									<a
-										href='#contact'
-										className="h-20 after:content-[''] after:bg-orange-1 after:w-[72.94px] md:hover:after:h-[3px]  after:top-4 flex flex-col justify-between duration-200"
-									>
-										contact
-									</a>
-								</li>
-							</ul>
-						</nav>
+						<NavigationBar />
 					</div>
 				</div>
 				<div className='flex '>
@@ -105,56 +56,10 @@ const Header = () => {
 						}}
 						className='flex'
 					>
-						{cartItems?.[0]?.totalItem > 0 && (
-							<p className='relative left-8 top-[-.6rem] text-xs font-700 text-White-1 bg-orange-1 rounded-2xl px-[7px]'>
-								{cartItems?.[0]?.totalItem}
-							</p>
-						)}
+						<TotalCartItems />
 						<img alt='cart' src={cart} className='w-6 h-6 mr-3 md:mr-6' />
 					</button>
-					{isCartOpen && (
-						<article className='absolute z-10 top-32 md:top-20 left-[5vw] md:left-auto w-[90vw] md:right-[5%] lg:right-[6%]  md:w-80 h-64 bg-White-1 shadow-xl p-[6vw] md:p-6 rounded-md'>
-							<p className='p-4'>cart</p>
-							<hr />
-							{(cartItems?.[0]?.totalItem === 0 || cartItems.length === 0) && (
-								<p className='text-center my-14 font-700 text-dark-grayish-blue text-sm'>
-									Your cart is empty.
-								</p>
-							)}
-							{cartItems?.[0]?.totalItem > 0 && (
-								<>
-									<div className='flex justify-center my-4 leading-8'>
-										<span aria-label='product-icon'>
-											<img
-												src={cartItems[0].url}
-												alt='product-icon'
-												className='h-14 md:w-10 md:h-10 mr-2 rounded-md'
-											/>
-										</span>
-										<div className='mx-4 md:mx-2'>
-											<p className='capitalize text-sm'>{cartItems[0].desc}</p>
-											<p>
-												$125 x {cartItems?.[0]?.totalItem}{' '}
-												<span className='font-bold ml-2'>
-													${cartItems?.[0].price * cartItems?.[0]?.totalItem}
-												</span>
-											</p>
-										</div>
-										<button aria-label='delete-icon' onClick={handleRemoveCart}>
-											<img
-												src={Delete}
-												alt='delete'
-												className='mt-2 cursor-pointer'
-											/>
-										</button>
-									</div>
-									<button className='w-full capitalize font-bold text-White-1 bg-orange-1 rounded-md py-3 md:py-2 hover:opacity-50 duration-200'>
-										checkout
-									</button>
-								</>
-							)}
-						</article>
-					)}
+					{isCartOpen && <Cart />}
 					<span aria-label='avatar'>
 						<img
 							alt='avatar'
